@@ -1,19 +1,23 @@
 package utils.state;
 
-public class Checked implements ButtonState{
+import javax.swing.JPanel;
 
-	public Checked() {
-		
+public class Checked implements ActionsState{
+
+	private JPanel actions;
+	
+	public Checked(JPanel actions) {
+		this.actions = actions;
 	}
 
 	@Override
-	public void enableButton() {
-		
+	public void doneTodos() {
+		return;
 	}
 
 	@Override
-	public void disableButton() {
-		
+	public void removeTodos() {
+		return;
 	}
 
 }

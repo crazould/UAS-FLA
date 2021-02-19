@@ -6,67 +6,70 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import utils.Observable;
-import utils.Observer;
-import utils.state.ButtonState;
+import utils.mediator.IMediator;
+import utils.mediator.Mediator;
+import utils.state.ActionsState;
+import utils.state.Checked;
+import utils.state.NoChecked;
 
-public class Actions extends JPanel implements ActionListener, Observer {
+public class Actions extends JPanel implements ActionListener, IMediator {
+	
 	private TodoFrame frame;
 	private JButton done;
 	private JButton remove;
 	
-	private ButtonState checked;
-	private ButtonState noChecked;
+	private Mediator mediator;
 	
-	private ButtonState buttonState;
+	private ActionsState checked;
+	private ActionsState noChecked;
+	private ActionsState actionsState;
 
-	public Actions(TodoFrame frame) {
+	public Actions(TodoFrame frame, Mediator mediator) {
 		this.frame = frame;
-
+		this.mediator = mediator;
+		this.mediator.addComponent("actions", this);
+		
 		done = new JButton("Done");
 		remove = new JButton("Remove");
 
+		this.checked = new Checked(this);
+		this.noChecked = new NoChecked(this);
+		
+		this.actionsState = noChecked;
+		
+		this.done.setEnabled(false);
+		this.remove.setEnabled(false);
+		
 		this.add(done);
 		this.add(remove);
 		
 		done.addActionListener(this);
 		remove.addActionListener(this);
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(done)) {
-			frame.doneTodos();
+			actionsState.doneTodos();
 		}
-
 		if (e.getSource().equals(remove)) {
-			frame.removeTodos();
+			actionsState.removeTodos();
 		}
 	}
-
-	@Override
-	public void update(Observable observable) {
-		
-		Todo todo = (Todo) observable;
-		System.out.println("masuk");
-		
-		if(todo.isChecked()) {
-			
-			this.done.setEnabled(true);
-			this.remove.setEnabled(true);
-			
-		}
-		else {
-			
-			this.done.setEnabled(false);
-			this.remove.setEnabled(false);
-			
-		}
 	
+	public void setActionsState(ActionsState state) {
+		this.actionsState = state;
 	}
 
 	@Override
-	public void subscribe(Observable observable) {
-		observable.addObserver(this);
+	public void notifyComponent(boolean signal, String receiverName) {
+		mediator.notifyComponent(signal, receiverName);
 	}
+	
+	@Override
+	public void react(boolean signal) {
+		setActionsState(signal ? checked : noChecked);
+	}
+
 }

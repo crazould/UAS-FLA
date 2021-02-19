@@ -1,18 +1,23 @@
 package utils.state;
 
-public class NoChecked implements ButtonState{
+import javax.swing.JPanel;
 
-	public NoChecked() {
+public class NoChecked implements ActionsState{
+
+	private JPanel actions;
+	
+	public NoChecked(JPanel actions) {
+		this.actions = actions;
+		this.actions
+	}
+
+	@Override
+	public void doneTodos() {
 		
 	}
 
 	@Override
-	public void enableButton() {
-		
-	}
-
-	@Override
-	public void disableButton() {
+	public void removeTodos() {
 		
 	}
 

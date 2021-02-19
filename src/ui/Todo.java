@@ -13,31 +13,33 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import utils.Observable;
-import utils.Observer;
+import utils.mediator.IMediator;
+import utils.mediator.Mediator;
 
-public class Todo extends JPanel implements Observable, ActionListener {
+public class Todo extends JPanel implements ActionListener, IMediator {
 	
 	private Border border;
 	private JLabel label;
 	private JCheckBox checkbox;
-	private ArrayList<Observer> observerList;
 
+	private int id;
+	private Mediator mediator;
 
-	public Todo(String text) {
+	public Todo(int id, String text, Mediator mediator) {
 		this.setPreferredSize(new Dimension(350, 30));
-
+		this.mediator = mediator;
+		this.id = id;
+		this.mediator.addComponent( id + "_" +text, this);
+			
 		border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		this.setBorder(border);
 
 		this.setLayout(new BorderLayout());
 
 		checkbox = new JCheckBox();
-		this.checkbox.addActionListener(this);
+		checkbox.addActionListener(this);
 		this.add(checkbox, BorderLayout.WEST);
 		
-		this.observerList = new ArrayList<Observer>();
-
 		label = new JLabel(text);
 		this.add(label, BorderLayout.CENTER);
 
@@ -48,30 +50,18 @@ public class Todo extends JPanel implements Observable, ActionListener {
 	}
 
 	@Override
-	public void addObserver(Observer observer) {
-		observerList.add(observer);
-	}
-
-	@Override
-	public void removeObserver(Observer observer) {
-		observerList.remove(observer);
-	}
-
-	@Override
-	public void notifyObserver() {
-		for(Observer observer: observerList) {
-			observer.update(this);
-		}
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		if(this.isChecked()) {
-			System.out.println(this.label.getText());
-		this.notifyObserver();
-			
-		}
+		notifyComponent(this.isChecked(), "todos");
+	}
+
+	@Override
+	public void notifyComponent(boolean signal, String receiverName) {
+		mediator.notifyComponent(signal, receiverName);
+	}
+
+	@Override
+	public void react(boolean signal) {
 		
 	}
+
 }

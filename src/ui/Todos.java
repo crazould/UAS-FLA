@@ -5,25 +5,30 @@ import java.util.Vector;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-public class Todos extends JPanel {
+import utils.mediator.IMediator;
+import utils.mediator.Mediator;
+
+public class Todos extends JPanel implements IMediator{
 	
 	private TodoFrame frame;
 	private Vector<Todo> todos;
+	
+	private Mediator mediator;
 
-	public Todos(TodoFrame frame) {
+	public Todos(TodoFrame frame, Mediator mediator) {
 		this.frame = frame;
 		this.todos = new Vector<>();
+		this.mediator = mediator;
+		this.mediator.addComponent("todos", this);
 
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
 		displayTodos();
 	}
 
-	public Todo addTodo(String text) {
-		Todo todo = new Todo(text);
-		todos.add(todo);
+	public void addTodo(String text) {
+		int id = todos.size();
+		todos.add(new Todo(id, text, mediator));
 		displayTodos();
-		return todo;
 	}
 
 	public void done() {
@@ -56,4 +61,27 @@ public class Todos extends JPanel {
 			this.add(todo);
 		}
 	}
+
+	@Override
+	public void notifyComponent(boolean signal, String receiverName) {
+		mediator.notifyComponent(signal, receiverName);
+	}
+
+	@Override
+	public void react(boolean signal) {
+		
+		boolean isCheckedExist = false;
+		
+		if(signal) isCheckedExist = true;
+		
+		for (Todo todo : todos) {
+			if(isCheckedExist) break;
+			if(todo.isChecked()) isCheckedExist = true;
+		}
+		
+		notifyComponent(isCheckedExist, "actions");
+		
+	}
+	
+	
 }
