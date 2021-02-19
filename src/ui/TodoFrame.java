@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 public class TodoFrame extends JFrame {
+	
 	private TodoInput todoInput;
 	private Todos todos;
 	private Actions actions;
@@ -28,8 +29,13 @@ public class TodoFrame extends JFrame {
 	}
 
 	public void addTodo(String text) {
-		todos.addTodo(text);
+		Todo todo = todos.addTodo(text);
+		todo.addObserver(actions);
 		this.pack();
+	}
+	
+	public void setObserver() {
+		
 	}
 
 	public void doneTodos() {
@@ -41,4 +47,6 @@ public class TodoFrame extends JFrame {
 		todos.remove();
 		this.pack();
 	}
+
+	
 }

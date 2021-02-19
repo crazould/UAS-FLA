@@ -6,8 +6,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 public class Todos extends JPanel {
+	
 	private TodoFrame frame;
-
 	private Vector<Todo> todos;
 
 	public Todos(TodoFrame frame) {
@@ -19,9 +19,11 @@ public class Todos extends JPanel {
 		displayTodos();
 	}
 
-	public void addTodo(String text) {
-		todos.add(new Todo(text));
+	public Todo addTodo(String text) {
+		Todo todo = new Todo(text);
+		todos.add(todo);
 		displayTodos();
+		return todo;
 	}
 
 	public void done() {
