@@ -7,30 +7,30 @@ import javax.swing.JPanel;
 
 public class Mediator {
 
-	HashMap<String, JPanel> components;
+	HashMap<String, IMediator> components;
 	
 	public Mediator() {
-		components = new HashMap<String, JPanel>();
+		components = new HashMap<String, IMediator>();
 	}
 	
-	public void notifyComponent(boolean signal, String receiverName) {
+	public void notifyComponent(boolean signal, String senderName, String receiverName) {
 		
-		IMediator receiverComponent = (IMediator) getComponent(receiverName);
+		IMediator receiverComponent = getComponent(receiverName);
 		
 		if(receiverComponent == null) {
 			System.out.println("Receiver name is not exist");
 		}
 		else {
-			receiverComponent.react(signal);
+			receiverComponent.react(signal, senderName);
 		}
 		
 	}
 	
-	public void addComponent(String componentName ,JPanel component) {
+	public void addComponent(String componentName ,IMediator component) {
 		components.put(componentName, component);
 	}
 	
-	public JPanel getComponent(String receiverName) {
+	public IMediator getComponent(String receiverName) {
 		return components.get(receiverName);
 	}
 

@@ -22,14 +22,12 @@ public class Todo extends JPanel implements ActionListener, IMediator {
 	private JLabel label;
 	private JCheckBox checkbox;
 
-	private int id;
 	private Mediator mediator;
 
 	public Todo(int id, String text, Mediator mediator) {
 		this.setPreferredSize(new Dimension(350, 30));
 		this.mediator = mediator;
-		this.id = id;
-		this.mediator.addComponent( id + "_" +text, this);
+		this.mediator.addComponent("Todo", this);
 			
 		border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		this.setBorder(border);
@@ -42,7 +40,6 @@ public class Todo extends JPanel implements ActionListener, IMediator {
 		
 		label = new JLabel(text);
 		this.add(label, BorderLayout.CENTER);
-
 	}
 
 	public boolean isChecked() {
@@ -51,16 +48,16 @@ public class Todo extends JPanel implements ActionListener, IMediator {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		notifyComponent(this.isChecked(), "todos");
+		notifyComponent(this.isChecked(), "Todos");
 	}
 
 	@Override
 	public void notifyComponent(boolean signal, String receiverName) {
-		mediator.notifyComponent(signal, receiverName);
+		mediator.notifyComponent(signal, "Todo", receiverName);
 	}
 
 	@Override
-	public void react(boolean signal) {
+	public void react(boolean signal, String senderName) {
 		
 	}
 

@@ -2,22 +2,27 @@ package utils.state;
 
 import javax.swing.JPanel;
 
+import ui.Actions;
+
 public class Checked implements ActionsState{
 
-	private JPanel actions;
+	private Actions actions;
 	
-	public Checked(JPanel actions) {
+	public Checked(Actions actions) {
 		this.actions = actions;
 	}
 
 	@Override
 	public void doneTodos() {
-		return;
+		this.actions.notifyComponent(true, "TodoFrame");
+		this.actions.setActionsState(this.actions.getNoCheckedState());
+		
 	}
 
 	@Override
 	public void removeTodos() {
-		return;
+		this.actions.notifyComponent(false, "TodoFrame");
+		this.actions.setActionsState(this.actions.getNoCheckedState());
 	}
 
 }

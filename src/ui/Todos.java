@@ -10,16 +10,14 @@ import utils.mediator.Mediator;
 
 public class Todos extends JPanel implements IMediator{
 	
-	private TodoFrame frame;
 	private Vector<Todo> todos;
 	
 	private Mediator mediator;
 
-	public Todos(TodoFrame frame, Mediator mediator) {
-		this.frame = frame;
+	public Todos(Mediator mediator) {
 		this.todos = new Vector<>();
 		this.mediator = mediator;
-		this.mediator.addComponent("todos", this);
+		this.mediator.addComponent("Todos", this);
 
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		displayTodos();
@@ -32,13 +30,16 @@ public class Todos extends JPanel implements IMediator{
 	}
 
 	public void done() {
+		
 		Vector<Todo> newTodos = new Vector<>();
 		for (Todo todo : todos) {
 			if (todo.isChecked()) {
+				notifyComponent(true, "TodoFrame");
 				continue;
 			}
 			newTodos.add(todo);
 		}
+		
 		this.todos = newTodos;
 		displayTodos();
 	}
@@ -64,22 +65,21 @@ public class Todos extends JPanel implements IMediator{
 
 	@Override
 	public void notifyComponent(boolean signal, String receiverName) {
-		mediator.notifyComponent(signal, receiverName);
+		mediator.notifyComponent(signal, "Todos", receiverName);
 	}
 
 	@Override
-	public void react(boolean signal) {
+	public void react(boolean signal, String senderName) {
 		
-		boolean isCheckedExist = false;
-		
-		if(signal) isCheckedExist = true;
-		
-		for (Todo todo : todos) {
-			if(isCheckedExist) break;
-			if(todo.isChecked()) isCheckedExist = true;
+		if(senderName.equals("Todo")) {
+			boolean isCheckedExist = false;
+			if(signal) isCheckedExist = true;
+			for (Todo todo : todos) {
+				if(isCheckedExist) break;
+				if(todo.isChecked()) isCheckedExist = true;
+			}
+			notifyComponent(isCheckedExist, "Actions");
 		}
-		
-		notifyComponent(isCheckedExist, "actions");
 		
 	}
 	

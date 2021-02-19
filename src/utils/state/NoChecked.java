@@ -2,23 +2,25 @@ package utils.state;
 
 import javax.swing.JPanel;
 
+import ui.Actions;
+
 public class NoChecked implements ActionsState{
 
-	private JPanel actions;
+	private Actions actions;
 	
-	public NoChecked(JPanel actions) {
+	public NoChecked(Actions actions) {
 		this.actions = actions;
-		this.actions
 	}
 
 	@Override
 	public void doneTodos() {
-		
+		return;
 	}
 
 	@Override
 	public void removeTodos() {
-		
+		return;
 	}
+
 
 }

@@ -14,7 +14,6 @@ import utils.state.NoChecked;
 
 public class Actions extends JPanel implements ActionListener, IMediator {
 	
-	private TodoFrame frame;
 	private JButton done;
 	private JButton remove;
 	
@@ -24,10 +23,10 @@ public class Actions extends JPanel implements ActionListener, IMediator {
 	private ActionsState noChecked;
 	private ActionsState actionsState;
 
-	public Actions(TodoFrame frame, Mediator mediator) {
-		this.frame = frame;
+	public Actions(Mediator mediator) {
+		
 		this.mediator = mediator;
-		this.mediator.addComponent("actions", this);
+		this.mediator.addComponent("Actions", this);
 		
 		done = new JButton("Done");
 		remove = new JButton("Remove");
@@ -35,10 +34,7 @@ public class Actions extends JPanel implements ActionListener, IMediator {
 		this.checked = new Checked(this);
 		this.noChecked = new NoChecked(this);
 		
-		this.actionsState = noChecked;
-		
-		this.done.setEnabled(false);
-		this.remove.setEnabled(false);
+		this.setActionsState(noChecked);
 		
 		this.add(done);
 		this.add(remove);
@@ -59,17 +55,40 @@ public class Actions extends JPanel implements ActionListener, IMediator {
 	}
 	
 	public void setActionsState(ActionsState state) {
+		
 		this.actionsState = state;
+		
+		if(this.actionsState instanceof Checked) {
+			this.done.setEnabled(true);
+			this.remove.setEnabled(true);
+		}
+		else if(this.actionsState instanceof NoChecked) {
+			this.done.setEnabled(false);
+			this.remove.setEnabled(false);
+		}
+		
 	}
-
-	@Override
-	public void notifyComponent(boolean signal, String receiverName) {
-		mediator.notifyComponent(signal, receiverName);
+	
+	public ActionsState getCheckedState() {
+		return this.checked;
+	}
+	
+	public ActionsState getNoCheckedState() {
+		return this.noChecked;
 	}
 	
 	@Override
-	public void react(boolean signal) {
-		setActionsState(signal ? checked : noChecked);
+	public void notifyComponent(boolean signal, String receiverName) {
+		mediator.notifyComponent(signal, "Actions", receiverName);
 	}
+	
+	@Override
+	public void react(boolean signal, String senderName) {
+		if(senderName.equals("Todos")) {
+			setActionsState(signal ? checked : noChecked);
+		}
+		
+	}
+	
 
 }
