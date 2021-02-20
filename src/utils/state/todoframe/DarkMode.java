@@ -1,13 +1,11 @@
 package utils.state.todoframe;
 
-import javax.swing.JPanel;
 
 import main.Main;
-import ui.TodoFrame;
 import utils.decorator.DarkJPanel;
 import utils.decorator.LightJPanel;
 
-public class DarkMode implements AppState {
+public class DarkMode implements IAppState {
 
 	private Main main;
 	

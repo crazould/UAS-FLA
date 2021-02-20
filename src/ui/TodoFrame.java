@@ -1,29 +1,18 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import main.Main;
-import utils.decorator.DarkJPanel;
 import utils.decorator.IModeDecorator;
-import utils.decorator.LightJPanel;
 import utils.mediator.IMediator;
 import utils.mediator.Mediator;
-import utils.state.todoframe.DarkMode;
-import utils.state.todoframe.LightMode;
-import utils.state.todoframe.AppState;
 
+@SuppressWarnings("serial")
 public class TodoFrame extends JFrame implements IMediator, KeyListener{
-	
-	
 	
 	private TodoInput todoInput;
 	private Todos todos;

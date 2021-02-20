@@ -1,10 +1,9 @@
 package utils.state.actions;
 
-import javax.swing.JPanel;
 
 import ui.Actions;
 
-public class Checked implements ActionsState{
+public class Checked implements IActionsState{
 
 	private Actions actions;
 	
@@ -16,7 +15,6 @@ public class Checked implements ActionsState{
 	public void doneTodos() {
 		this.actions.notifyComponent("true", "TodoFrame");
 		this.actions.setActionsState(this.actions.getNoCheckedState());
-		
 	}
 
 	@Override

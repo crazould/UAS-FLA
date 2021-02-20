@@ -2,18 +2,15 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import main.Main;
@@ -22,6 +19,7 @@ import utils.decorator.JPanelDecorator;
 import utils.mediator.IMediator;
 import utils.mediator.Mediator;
 
+@SuppressWarnings("serial")
 public class Todo extends JPanelDecorator implements ActionListener, IMediator, KeyListener {
 	
 	private Border border;

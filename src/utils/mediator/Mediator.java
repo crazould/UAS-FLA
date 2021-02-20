@@ -1,9 +1,6 @@
 package utils.mediator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.swing.JPanel;
 
 public class Mediator {
 

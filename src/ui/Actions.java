@@ -1,30 +1,30 @@
 package ui;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import utils.decorator.IModeDecorator;
 import utils.decorator.JPanelDecorator;
 import utils.mediator.IMediator;
 import utils.mediator.Mediator;
-import utils.state.actions.ActionsState;
+import utils.state.actions.IActionsState;
 import utils.state.actions.Checked;
 import utils.state.actions.NoChecked;
 
+@SuppressWarnings("serial")
 public class Actions extends JPanelDecorator implements ActionListener, IMediator{
 	
+
 	private JButton done;
 	private JButton remove;
 	
 	private Mediator mediator;
 	
-	private ActionsState checked;
-	private ActionsState noChecked;
-	private ActionsState actionsState;
+	private IActionsState checked;
+	private IActionsState noChecked;
+	private IActionsState actionsState;
 
 	public Actions(IModeDecorator mode, Mediator mediator) {
 		super(mode);
@@ -58,7 +58,7 @@ public class Actions extends JPanelDecorator implements ActionListener, IMediato
 		}
 	}
 	
-	public void setActionsState(ActionsState state) {
+	public void setActionsState(IActionsState state) {
 		
 		this.actionsState = state;
 		
@@ -73,11 +73,11 @@ public class Actions extends JPanelDecorator implements ActionListener, IMediato
 		
 	}
 	
-	public ActionsState getCheckedState() {
+	public IActionsState getCheckedState() {
 		return this.checked;
 	}
 	
-	public ActionsState getNoCheckedState() {
+	public IActionsState getNoCheckedState() {
 		return this.noChecked;
 	}
 	

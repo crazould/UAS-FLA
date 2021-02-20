@@ -1,24 +1,20 @@
 package ui;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import main.Main;
-import utils.decorator.DarkJPanel;
 import utils.decorator.IModeDecorator;
 import utils.decorator.JPanelDecorator;
 import utils.mediator.IMediator;
 import utils.mediator.Mediator;
-import utils.state.todoframe.DarkMode;
 
+@SuppressWarnings("serial")
 public class TodoInput extends JPanelDecorator implements ActionListener, IMediator, KeyListener {
 
 	private JTextField text;

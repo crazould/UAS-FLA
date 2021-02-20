@@ -1,11 +1,10 @@
 package utils.state.todoframe;
 
 import main.Main;
-import ui.TodoFrame;
 import utils.decorator.DarkJPanel;
 import utils.decorator.LightJPanel;
 
-public class LightMode implements AppState{
+public class LightMode implements IAppState{
 
 	private Main main;
 	

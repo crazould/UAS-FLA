@@ -1,23 +1,24 @@
 package main;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import ui.TodoFrame;
 import utils.decorator.IModeDecorator;
 import utils.mediator.IMediator;
 import utils.mediator.Mediator;
-import utils.state.todoframe.AppState;
+import utils.state.todoframe.IAppState;
 import utils.state.todoframe.DarkMode;
 import utils.state.todoframe.LightMode;
 
+// NIM: 2201829035
+// Name: Muhammad At Thariq Filardi
 public class Main implements IMediator {
 	
 	public static int N_KEYCODE = 78; 
 	private TodoFrame todoFrame;
-	private AppState appState;
-	private AppState lightMode;
-	private AppState darkMode;
+	private IAppState appState;
+	private IAppState lightMode;
+	private IAppState darkMode;
 	private Mediator mediator;
 	
 	public Main() {
@@ -73,19 +74,19 @@ public class Main implements IMediator {
 		new Main();
 	}
 	
-	public void setAppState(AppState state) {
+	public void setAppState(IAppState state) {
 		this.appState = state;
 	}
 	
-	public AppState getAppState() {
+	public IAppState getAppState() {
 		return this.appState;
 	}
 	
-	public AppState getLightMode() {
+	public IAppState getLightMode() {
 		return this.lightMode;
 	}
 	
-	public AppState getDarkMode() {
+	public IAppState getDarkMode() {
 		return this.darkMode;
 	}
 

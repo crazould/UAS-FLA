@@ -1,10 +1,9 @@
 package utils.state.actions;
 
-import javax.swing.JPanel;
 
 import ui.Actions;
 
-public class NoChecked implements ActionsState{
+public class NoChecked implements IActionsState{
 
 	private Actions actions;
 	

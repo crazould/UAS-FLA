@@ -1,17 +1,15 @@
 package ui;
 
-import java.awt.Component;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 
-import utils.decorator.DarkJPanel;
 import utils.decorator.IModeDecorator;
 import utils.decorator.JPanelDecorator;
 import utils.mediator.IMediator;
 import utils.mediator.Mediator;
 
+@SuppressWarnings("serial")
 public class Todos extends JPanelDecorator implements IMediator{
 	
 	private Vector<Todo> todos;

@@ -4,6 +4,7 @@ import java.awt.Component;
 
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class JPanelDecorator extends JPanel implements IModeDecorator {
 	
 	protected IModeDecorator mode; 
@@ -15,7 +16,6 @@ public class JPanelDecorator extends JPanel implements IModeDecorator {
 	@Override
 	public void assamble(Component c) {
 		this.mode.assamble(c);
-		
 	}
 
 }
