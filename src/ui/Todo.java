@@ -2,9 +2,12 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -13,10 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import main.Main;
+import utils.decorator.IModeDecorator;
+import utils.decorator.JPanelDecorator;
 import utils.mediator.IMediator;
 import utils.mediator.Mediator;
 
-public class Todo extends JPanel implements ActionListener, IMediator {
+public class Todo extends JPanelDecorator implements ActionListener, IMediator, KeyListener {
 	
 	private Border border;
 	private JLabel label;
@@ -24,7 +30,8 @@ public class Todo extends JPanel implements ActionListener, IMediator {
 
 	private Mediator mediator;
 
-	public Todo(int id, String text, Mediator mediator) {
+	public Todo(IModeDecorator mode, int id, String text, Mediator mediator) {
+		super(mode);
 		this.setPreferredSize(new Dimension(350, 30));
 		this.mediator = mediator;
 		this.mediator.addComponent("Todo", this);
@@ -38,8 +45,12 @@ public class Todo extends JPanel implements ActionListener, IMediator {
 		checkbox.addActionListener(this);
 		this.add(checkbox, BorderLayout.WEST);
 		
+		addKeyListener(this);
+		checkbox.addKeyListener(this);
+		
 		label = new JLabel(text);
 		this.add(label, BorderLayout.CENTER);
+		
 	}
 
 	public boolean isChecked() {
@@ -48,16 +59,39 @@ public class Todo extends JPanel implements ActionListener, IMediator {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		notifyComponent(this.isChecked(), "Todos");
+		if(this.isChecked()) notifyComponent("true", "Todos");
+		else notifyComponent("false", "Todos");
 	}
 
 	@Override
-	public void notifyComponent(boolean signal, String receiverName) {
-		mediator.notifyComponent(signal, "Todo", receiverName);
+	public void notifyComponent(String msg, String receiverName) {
+		mediator.notifyComponent(msg, "Todo", receiverName);
 	}
 
 	@Override
-	public void react(boolean signal, String senderName) {
+	public void react(String msg, String senderName) {
+		
+	}
+	
+	public void assamble() {
+		super.assamble(this);
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == Main.N_KEYCODE) {
+			notifyComponent("toggle", "Main");
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
 		
 	}
 

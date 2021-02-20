@@ -1,20 +1,25 @@
 package ui;
 
+import java.awt.Component;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import utils.decorator.DarkJPanel;
+import utils.decorator.IModeDecorator;
+import utils.decorator.JPanelDecorator;
 import utils.mediator.IMediator;
 import utils.mediator.Mediator;
 
-public class Todos extends JPanel implements IMediator{
+public class Todos extends JPanelDecorator implements IMediator{
 	
 	private Vector<Todo> todos;
 	
 	private Mediator mediator;
 
-	public Todos(Mediator mediator) {
+	public Todos(IModeDecorator mode, Mediator mediator) {
+		super(mode);
 		this.todos = new Vector<>();
 		this.mediator = mediator;
 		this.mediator.addComponent("Todos", this);
@@ -23,9 +28,11 @@ public class Todos extends JPanel implements IMediator{
 		displayTodos();
 	}
 
-	public void addTodo(String text) {
+	public void addTodo(String text, IModeDecorator mode) {
 		int id = todos.size();
-		todos.add(new Todo(id, text, mediator));
+		Todo todo = new Todo(mode, id, text, mediator);
+		todo.assamble();
+		todos.add(todo);
 		displayTodos();
 	}
 
@@ -34,7 +41,7 @@ public class Todos extends JPanel implements IMediator{
 		Vector<Todo> newTodos = new Vector<>();
 		for (Todo todo : todos) {
 			if (todo.isChecked()) {
-				notifyComponent(true, "TodoFrame");
+				notifyComponent("true", "TodoFrame");
 				continue;
 			}
 			newTodos.add(todo);
@@ -64,23 +71,28 @@ public class Todos extends JPanel implements IMediator{
 	}
 
 	@Override
-	public void notifyComponent(boolean signal, String receiverName) {
-		mediator.notifyComponent(signal, "Todos", receiverName);
+	public void notifyComponent(String msg, String receiverName) {
+		mediator.notifyComponent(msg, "Todos", receiverName);
 	}
 
 	@Override
-	public void react(boolean signal, String senderName) {
+	public void react(String msg, String senderName) {
 		
 		if(senderName.equals("Todo")) {
 			boolean isCheckedExist = false;
-			if(signal) isCheckedExist = true;
+			if(msg.equals("true")) isCheckedExist = true;
 			for (Todo todo : todos) {
 				if(isCheckedExist) break;
 				if(todo.isChecked()) isCheckedExist = true;
 			}
-			notifyComponent(isCheckedExist, "Actions");
+			if(isCheckedExist) notifyComponent("true", "Actions");
+			else notifyComponent("false", "Actions");
 		}
 		
+	}
+	
+	public void assamble() {
+		super.assamble(this);
 	}
 	
 	

@@ -13,7 +13,7 @@ public class Mediator {
 		components = new HashMap<String, IMediator>();
 	}
 	
-	public void notifyComponent(boolean signal, String senderName, String receiverName) {
+	public void notifyComponent(String msg, String senderName, String receiverName) {
 		
 		IMediator receiverComponent = getComponent(receiverName);
 		
@@ -21,7 +21,7 @@ public class Mediator {
 			System.out.println("Receiver name is not exist");
 		}
 		else {
-			receiverComponent.react(signal, senderName);
+			receiverComponent.react(msg, senderName);
 		}
 		
 	}

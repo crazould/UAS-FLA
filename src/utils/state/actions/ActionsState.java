@@ -1,4 +1,4 @@
-package utils.state;
+package utils.state.actions;
 
 public interface ActionsState {
 	public void doneTodos();

@@ -1,18 +1,21 @@
 package ui;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import utils.decorator.IModeDecorator;
+import utils.decorator.JPanelDecorator;
 import utils.mediator.IMediator;
 import utils.mediator.Mediator;
-import utils.state.ActionsState;
-import utils.state.Checked;
-import utils.state.NoChecked;
+import utils.state.actions.ActionsState;
+import utils.state.actions.Checked;
+import utils.state.actions.NoChecked;
 
-public class Actions extends JPanel implements ActionListener, IMediator {
+public class Actions extends JPanelDecorator implements ActionListener, IMediator{
 	
 	private JButton done;
 	private JButton remove;
@@ -23,7 +26,8 @@ public class Actions extends JPanel implements ActionListener, IMediator {
 	private ActionsState noChecked;
 	private ActionsState actionsState;
 
-	public Actions(Mediator mediator) {
+	public Actions(IModeDecorator mode, Mediator mediator) {
+		super(mode);
 		
 		this.mediator = mediator;
 		this.mediator.addComponent("Actions", this);
@@ -78,17 +82,21 @@ public class Actions extends JPanel implements ActionListener, IMediator {
 	}
 	
 	@Override
-	public void notifyComponent(boolean signal, String receiverName) {
-		mediator.notifyComponent(signal, "Actions", receiverName);
+	public void notifyComponent(String msg, String receiverName) {
+		mediator.notifyComponent(msg, "Actions", receiverName);
 	}
 	
 	@Override
-	public void react(boolean signal, String senderName) {
+	public void react(String msg, String senderName) {
 		if(senderName.equals("Todos")) {
-			setActionsState(signal ? checked : noChecked);
+			if(msg.equals("true")) setActionsState(checked);
+			else setActionsState(noChecked);
 		}
 		
 	}
-	
+
+	public void assamble() {
+		super.assamble(this);
+	}
 
 }
